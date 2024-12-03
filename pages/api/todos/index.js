@@ -7,14 +7,17 @@ export default function handler(request, response) {
   }
 
   if (request.method === "POST") {
+    const { task } = request.body;
+
     const newId = crypto.randomUUID();
 
-    const newTaskWithId = {
-      ...request.body,
+    const newTask = {
       id: newId,
+      done: false,
+      task,
     };
 
-    addTask(newTaskWithId);
+    addTask(newTask);
 
     response.json({ status: "success" });
     return;

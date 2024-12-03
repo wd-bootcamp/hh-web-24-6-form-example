@@ -15,7 +15,7 @@ export default function Form({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    await onSubmit({ ...defaultValue, ...data }); // makes sure that no data is lost from the defaultValue (e.g. the task that is edited)
+    await onSubmit(data); // makes sure that no data is lost from the defaultValue (e.g. the task that is edited)
     event.target.reset();
   }
 

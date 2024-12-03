@@ -5,15 +5,21 @@ import useSWR from "swr";
 export default function EditPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading } = useSWR(`/api/todos/${id}`);
+  const { data: task, isLoading } = useSWR(`/api/todos/${id}`);
 
-  async function handleEdit(updatedTodo) {
+  async function handleEdit(formData) {
+    const updatedTask = {
+      id: task.id,
+      done: task.done,
+      task: formData.task,
+    };
+
     const response = await fetch(`/api/todos/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedTodo),
+      body: JSON.stringify(updatedTask),
     });
 
     if (response.ok) {
@@ -29,7 +35,7 @@ export default function EditPage() {
 
   return (
     <Form
-      defaultValue={data}
+      defaultValue={task}
       onSubmit={handleEdit}
       onCancel={handleCancel}
       editMode
